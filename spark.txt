@@ -1,0 +1,35 @@
+                              ^
+
+scala> import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.sql.hive.HiveContext
+
+scala> val sqlContext = new HiveContext(sc)
+sqlContext: org.apache.spark.sql.hive.HiveContext = org.apache.spark.sql.hive.HiveContext@6725e86e
+
+scala> var db = sqlContext.sql("select *from default.members")
+19/02/09 16:22:44 WARN metastore.ObjectStore: Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 1.1.0-cdh5.13.0
+19/02/09 16:22:44 WARN metastore.ObjectStore: Failed to get database default, returning NoSuchObjectException
+db: org.apache.spark.sql.DataFrame = [first_name: string, last_name: string, town: string, post_code: string]
+
+scala> db.show()
++----------+---------+-----------+---------+
+|first_name|last_name|       town|post_code|
++----------+---------+-----------+---------+
+|   William|   Hatzar|Walthamstow|  E17 9DD|
+|      Paul|   Hatzar|Walthamstow|  E17 9DD|
+|     Emily|   Hatzar|Walthamstow|  E17 9DD|
+|    Louisa|    Munro|Walthamstow|  E17 9DD|
+|       Sam|   Taborn|     Exeter|  EX2 9RT|
++----------+---------+-----------+---------+
+
+scala> val db1 = sqlContext.sql(s"SELECT * FROM default.members WHERE last_name='Hatzar'")
+db1: org.apache.spark.sql.DataFrame = [first_name: string, last_name: string, town: string, post_code: string]
+
+scala> db1.show()
++----------+---------+-----------+---------+
+|first_name|last_name|       town|post_code|
++----------+---------+-----------+---------+
+|   William|   Hatzar|Walthamstow|  E17 9DD|
+|      Paul|   Hatzar|Walthamstow|  E17 9DD|
+|     Emily|   Hatzar|Walthamstow|  E17 9DD|
++----------+---------+-----------+---------+
